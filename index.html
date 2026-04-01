@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>단어장 마스터</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="toastContainer" class="toast-container"></div>
+<div id="swipeBg" class="swipe-bg"></div>
+
+<div class="app-container">
+    <header class="top-header">
+        <div class="header-inner">
+            <h1 class="logo">VOCAB</h1>
+            <div class="deck-selector">
+                <select id="deckSelect" onchange="handleDeckSelect(this.value)"></select>
+                <button class="btn-icon" onclick="openDeckModal()" title="단어장 관리">+</button>
+            </div>
+        </div>
+    </header>
+    
+    <div class="header-divider-box"></div>
+
+    <aside class="right-sidebar" id="rightSidebar">
+        <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">&#60;</button>
+        <div class="sidebar-content">
+            <h3>메뉴</h3>
+            <nav class="sidebar-nav">
+                <button class="tab-btn active" onclick="switchTab('study')">학습하기</button>
+                <button class="tab-btn" onclick="switchTab('manage')">단어 관리</button>
+                <button class="tab-btn" onclick="switchTab('quiz')">퀴즈 모드</button>
+            </nav>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div id="studySection" class="section active">
+            <div class="study-wrapper">
+                <div class="card-container">
+                    <div id="swipeContainer" class="swipe-container">
+                        <div id="flashcard" class="flashcard">
+                            <div class="card-face card-front" id="cardFront">단어장을 선택하세요</div>
+                            <div class="card-face card-back" id="cardBack">-</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="controls">
+                    <button class="btn-fail" onclick="handleAction('left')">FAIL</button>
+                    <div class="progress" id="progressText">0 / 0</div>
+                    <button class="btn-pass" onclick="handleAction('right')">PASS</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="manageSection" class="section">
+            <div class="manage-wrapper">
+                <h2 class="section-title" id="manageTitle">단어장 관리</h2>
+                <div class="form-box">
+                    <input type="text" id="wordInput" placeholder="단어 (예: Apple)">
+                    <input type="text" id="meaningInput" placeholder="뜻 (예: 사과)">
+                    <button class="btn-primary" onclick="addWord()">추가</button>
+                </div>
+                <div class="word-list" id="wordList"></div>
+            </div>
+        </div>
+
+        <div id="quizSection" class="section">
+            <div class="quiz-wrapper">
+                <h2 class="section-title">퀴즈 모드</h2>
+                <div class="quiz-container">
+                    <div id="quizSetup">
+                        <p class="quiz-desc">현재 단어장으로 4지 선다 퀴즈를 시작합니다.</p>
+                        <button class="btn-primary btn-large" onclick="startQuiz()">시작하기</button>
+                    </div>
+                    <div id="quizPlay" style="display: none;">
+                        <div class="quiz-progress" id="quizProgressText">1 / 10</div>
+                        <div class="quiz-question" id="quizQuestionWord">Word</div>
+                        <div class="quiz-options" id="quizOptionsContainer"></div>
+                    </div>
+                    <div id="quizResult" style="display: none;">
+                        <h3 id="quizScoreText" class="quiz-score">결과: 0 / 10</h3>
+                        <p id="quizFeedback" class="quiz-feedback">훌륭합니다!</p>
+                        <button class="btn-primary btn-large" onclick="resetQuizView()">다시 하기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div id="deckModal" class="modal-overlay" onclick="closeDeckModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <h3>새 단어장 만들기</h3>
+        <input type="text" id="newDeckName" placeholder="단어장 이름 입력">
+        <div class="modal-actions">
+            <button class="btn-cancel" onclick="closeDeckModal()">취소</button>
+            <button class="btn-primary" onclick="addDeck()">생성</button>
+        </div>
+        <hr style="border-color: #27272a; margin: 20px 0;">
+        <div id="modalDeckList" class="modal-deck-list"></div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
